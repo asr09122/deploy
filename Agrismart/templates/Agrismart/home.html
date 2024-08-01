@@ -1,0 +1,72 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmtech - Transforming Smallholder Farming</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+            background-color: #f3f4f6;
+        }
+    </style>
+    {% block link %}{% endblock %}
+</head>
+<body>
+    <div class="container">
+        <header class="item flex items-center justify-between p-4" id="header">
+            <div class="font-bold text-2xl text-green-600">Farmtech</div>
+            <nav class="hidden md:flex">
+                <ul class="flex gap-6 text-lg">
+                    <li><a href="{% url 'Agrismart:Agri' %}" class="hover:text-green-600">Home</a></li>
+                    <li><a href="{% url 'data' %}" class="hover:text-green-600">Dashboard</a></li>
+                    <li><a href="#" class="hover:text-green-600">Marketplace</a></li>
+                    {% if user.is_authenticated %}
+                        <li><a href="{% url 'logout' %}" class="hover:text-green-600">Logout</a></li>
+                    {% else %}
+                        <li><a href="{% url 'login' %}" class="hover:text-green-600">Login</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+            <button class="md:hidden">Menu</button>
+        </header>
+        {% block body %}{% endblock %}
+        <footer class="item bg-gray-800 text-white py-8" id="footer">
+            <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Farmtech</h3>
+                    <p>Empowering farmers with innovative technology.</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-green-400">Home</a></li>
+                        <li><a href="#" class="hover:text-green-400">About Us</a></li>
+                        <li><a href="#" class="hover:text-green-400">Services</a></li>
+                        <li><a href="#" class="hover:text-green-400">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Contact Us</h4>
+                    <p>123 Farm Road, Agriville</p>
+                    <p>Phone: (123) 456-7890</p>
+                    <p>Email: info@farmtech.com</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Follow Us</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="hover:text-green-400">Facebook</a>
+                        <a href="#" class="hover:text-green-400">Twitter</a>
+                        <a href="#" class="hover:text-green-400">Instagram</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

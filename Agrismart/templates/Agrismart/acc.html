@@ -1,0 +1,39 @@
+{% extends "Agrismart/home.html" %}
+{% load static %}
+{% block link %}
+<link rel="stylesheet" href="{% static 'Agrismart/css/login.css' %}">
+{% endblock %}
+{% block body %}
+<body class="bg-gray-100 bg-cover bg-center" style="background-image: url('{% static 'Agrismart/main.jpg' %}'); overflow-x-hidden;">
+    <div class="flex items-center justify-center min-h-screen bg-black bg-opacity-50">
+        <div class="card bg-white bg-opacity-80 p-8 rounded-lg shadow-md max-w-4xl w-full">
+            <h2 class="card-title text-2xl font-bold mb-4 text-center text-gray-800">Agrismart Services</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Crop Prediction Card -->
+                <div class="card bg-white p-6 rounded-lg shadow-md flex flex-col items-center">
+                    <img src="{% static 'Agrismart/cp.jpg' %}" alt="Crop Prediction" class="w-full h-32 object-cover rounded-md mb-4">
+                    <h3 class="text-xl font-bold mb-2 text-gray-800">Crop Prediction</h3>
+                    <p class="text-gray-600 mb-4 text-center">Predict the best crops to grow based on current conditions and historical data.</p>
+                    <a href="{% url 'predict_crop' %}" class="block bg-green-600 text-white text-center py-2 rounded-md hover:bg-green-700 transition duration-300">Predict Crops</a>
+                </div>
+                
+                <!-- Fertilizer Prediction Card -->
+                <div class="card bg-white p-6 rounded-lg shadow-md flex flex-col items-center">
+                    <img src="{% static 'Agrismart/cw.jpg' %}" alt="Fertilizer Prediction" class="w-full h-32 object-cover rounded-md mb-4">
+                    <h3 class="text-xl font-bold mb-2 text-gray-800">Fertilizer Prediction</h3>
+                    <p class="text-gray-600 mb-4 text-center">Get recommendations on the best fertilizers for your crops to maximize yield.</p>
+                    <a href="#" class="block bg-green-600 text-white text-center py-2 rounded-md hover:bg-green-700 transition duration-300">Predict Fertilizer</a>
+                </div>
+                
+                <!-- Disease Prediction Card -->
+                <div class="card bg-white p-6 rounded-lg shadow-md flex flex-col items-center">
+                    <img src="{% static 'Agrismart/ce.jpg' %}" alt="Disease Prediction" class="w-full h-32 object-cover rounded-md mb-4">
+                    <h3 class="text-xl font-bold mb-2 text-gray-800">Disease Prediction</h3>
+                    <p class="text-gray-600 mb-4 text-center">Identify potential diseases in your crops using image analysis and historical data.</p>
+                    <a href="#" class="block bg-green-600 text-white text-center py-2 rounded-md hover:bg-green-700 transition duration-300">Predict Disease</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+{% endblock %}

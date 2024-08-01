@@ -1,0 +1,113 @@
+{% extends "Agrismart/home.html" %}
+{% load static%}
+{%block link%}<link rel="stylesheet" href="{% static 'Agrismart/css/home.css' %}">{%endblock    %}
+{%block body%}
+     <div class="relative h-screen mb-16" id="content1">
+            <div class="absolute inset-0 bg-cover bg-center z-0" style="background-image: url('{% static 'Agrismart/main.jpg' %}');"></div>
+            <div class="relative z-10 text-center text-white pt-24">
+                <h1 class="text-4xl md:text-6xl font-bold mb-4">Empowering Smallholder Farmers</h1>
+                <p class="text-xl md:text-2xl mb-8">Transforming agriculture through innovative technology</p>
+                <a href="#" class="bg-green-600 text-white px-6 py-3 rounded-full text-lg hover:bg-green-700 transition duration-300">Get Started</a>
+            </div>
+        </div>
+
+        <div class="relative bg-white py-16" id="content2">
+            <div class="absolute inset-0 w-full h-full"></div>
+            <div class="max-w-5xl mx-auto relative z-10">
+                <h2 class="text-3xl font-bold text-center mb-12">Our Vision</h2>
+                <div class="flex flex-col md:flex-row items-center justify-between gap-12">
+                    <div class="flex-1">
+                        <p class="text-xl text-gray-700 leading-relaxed">Transforming smallholder farming through tech-driven sustainable solutions. We aim to empower farmers with the tools and knowledge they need to thrive in the modern agricultural landscape.</p>
+                    </div>
+                    <div class="flex-1 h-80 w-full md:w-1/2 bg-cover bg-center rounded-lg shadow-xl" style="background-image: url('{% static 'Agrismart/a2c77c05492aa6037bcf76482cf5d1ed.jpg' %}');"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-gray-100 py-16" id="content3">
+            <div class="max-w-6xl mx-auto py-12">
+                <h2 class="text-3xl font-bold text-center mb-12">Our Solutions</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="bg-white rounded-lg shadow-lg transition-transform duration-300 hover:transform hover:translate-y-[-5px]">
+                        <img src="{% static 'Agrismart/8d77e623abb5e8bf9c0a521d82402c97rg.jpg' %}" class="w-full h-48 object-cover rounded-t-lg" alt="Smart Farming Tools">
+                        <div class="p-6">
+                            <h3 class="text-xl font-semibold text-gray-800 mb-2">Smart Farming</h3>
+                            <p class="text-gray-600 mb-4">Cutting-edge technologies to optimize crop yield and resource management.</p>
+                            <a href="{% url 'ac' %}" class="text-green-600 hover:underline">Learn More</a>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-lg transition-transform duration-300 hover:transform hover:translate-y-[-5px]">
+                        <img src="{% static 'Agrismart/market.jpg' %}" class="w-full h-48 object-cover rounded-t-lg" alt="Marketplace Access">
+                        <div class="p-6">
+                            <h3 class="text-xl font-semibold text-gray-800 mb-2">Marketplace Access</h3>
+                            <p class="text-gray-600 mb-4">Connect directly with buyers and get fair prices for your produce.</p>
+                            <a href="#" class="text-green-600 hover:underline">Explore Market</a>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-lg transition-transform duration-300 hover:transform hover:translate-y-[-5px]">
+                        <img src="{% static 'Agrismart/images.jpeg' %}" class="w-full h-48 object-cover rounded-t-lg" alt="Knowledge Hub">
+                        <div class="p-6">
+                            <h3 class="text-xl font-semibold text-gray-800 mb-2">Knowledge Hub</h3>
+                            <p class="text-gray-600 mb-4">Access to agricultural best practices and expert advice.</p>
+                            <a href="#" class="text-green-600 hover:underline">Start Learning</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white py-16" id="content4">
+            <div class="max-w-4xl mx-auto py-12">
+                <h2 class="text-3xl font-bold text-center mb-12">How It Works</h2>
+                <div class="flex flex-col gap-8">
+                    <div class="flex gap-6 items-start">
+                        <div class="text-4xl font-bold text-green-600">1</div>
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-800 mb-2">Sign Up</h3>
+                            <p class="text-gray-600">Create your account and set up your farm profile.</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-6 items-start">
+                        <div class="text-4xl font-bold text-green-600">2</div>
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-800 mb-2">Explore Tools</h3>
+                            <p class="text-gray-600">Discover our range of smart farming tools and resources.</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-6 items-start">
+                        <div class="text-4xl font-bold text-green-600">3</div>
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-800 mb-2">Implement Solutions</h3>
+                            <p class="text-gray-600">Apply sustainable practices and watch your farm thrive.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-gray-100 py-16" id="content5">
+            <div class="max-w-5xl mx-auto py-12">
+                <h2 class="text-3xl font-bold text-center mb-12">What Farmers Say</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                    <div class="bg-white text-center pt-5 p-6 rounded-lg shadow-lg">
+                        <img src="{% static 'Agrismart/8d77e623abb5e8bf9c0a521d82402c97rg.jpg' %}" class="w-24 h-24 rounded-full mx-auto mb-4" alt="Farmer Testimonial 1">
+                        <p class="text-gray-800 mb-4">"Farmtech has revolutionized the way we manage our crops. The increase in yield and efficiency is remarkable!"</p>
+                        <div class="text-green-600 font-semibold">Jane Doe, Small-scale Farmer</div>
+                    </div>
+                    <div class="bg-white text-center pt-5 p-6 rounded-lg shadow-lg">
+                        <img src="{% static 'Agrismart/download.jpeg' %}" class="w-24 h-24 rounded-full mx-auto mb-4" alt="Farmer Testimonial 2">
+                        <p class="text-gray-800 mb-4">"The marketplace feature has opened up new opportunities for us to sell directly to consumers. It's been a game-changer."</p>
+                        <div class="text-green-600 font-semibold">John Smith, Organic Farmer</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-green-600 text-white text-center py-16" id="content6">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl font-bold mb-6">Ready to Transform Your Farm?</h2>
+                <p class="text-xl mb-8">Join thousands of farmers who are already benefiting from our innovative solutions.</p>
+                <a href="#" class="bg-white text-green-600 px-8 py-3 rounded-full text-lg font-semibold hover:bg-gray-100 transition duration-300">Get Started Now</a>
+            </div>
+        </div>
+{%endblock%}
