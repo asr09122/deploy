@@ -5,6 +5,7 @@ from django.contrib.auth import views as l_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('',u_views.index,name='agri'),
     path('Agri',include('Agrismart.urls')),
     path("__reload__/", include("django_browser_reload.urls")),
     path('register/',u_views.regi,name='regi'),
