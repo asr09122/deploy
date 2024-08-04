@@ -10,7 +10,7 @@
                 "content5"
                 "content6"
                 "footer";
-            grid-template-columns: 1fr;
+            grid-template-columns: 100vw;
             grid-template-rows: auto repeat(6, auto) auto;
         }
 
