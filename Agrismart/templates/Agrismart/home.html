@@ -33,9 +33,24 @@
                     {% endif %}
                 </ul>
             </nav>
-            <button class="md:hidden">Menu</button>
+            <button class="md:hidden" onclick="toggleMenu()">Menu</button>
         </header>
+        
+        <nav class="md:hidden" id="mobile-menu" style="display: none;">
+            <ul class="flex flex-col gap-2 p-4 text-lg bg-white shadow-lg">
+                <li><a href="{% url 'Agrismart:Agri' %}" class="hover:text-green-600">Home</a></li>
+                <li><a href="{% url 'data' %}" class="hover:text-green-600">Dashboard</a></li>
+                <li><a href="#" class="hover:text-green-600">Marketplace</a></li>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'logout' %}" class="hover:text-green-600">Logout</a></li>
+                {% else %}
+                    <li><a href="{% url 'login' %}" class="hover:text-green-600">Login</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+
         {% block body %}{% endblock %}
+        
         <footer class="item bg-gray-800 text-white py-8" id="footer">
             <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
                 <div>
@@ -68,5 +83,12 @@
             </div>
         </footer>
     </div>
+
+    <script>
+        function toggleMenu() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.style.display = mobileMenu.style.display === 'none' ? 'block' : 'none';
+        }
+    </script>
 </body>
 </html>
