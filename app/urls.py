@@ -14,6 +14,8 @@ urlpatterns = [
      path('db/',u_views.db,name='data'),
      path('ac/',u_views.ac,name='ac'),
      path('predict_crop/', u_views.predict_crop, name='predict_crop'),
+    path('predict_fertilizer/', u_views.predict_fertilizer, name='predict_fertilizer'),
+
 
 
 ]

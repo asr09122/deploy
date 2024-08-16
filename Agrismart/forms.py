@@ -30,3 +30,14 @@ class CropForm(forms.Form):
     humidity = forms.IntegerField()
     ph = forms.FloatField()
     rainfall = forms.IntegerField()
+
+class FertilizerForm(forms.Form):
+    # Define form fields matching the features used in your model
+    N = forms.IntegerField(label='Nitrogen')
+    P = forms.IntegerField(label='Phosphorus')
+    K = forms.IntegerField(label='Potassium')
+    T = forms.IntegerField(label='Temperature')
+    Hum = forms.IntegerField(label='Humidity')
+    Moisture = forms.IntegerField(label='Moisture')
+    Soil_Type = forms.ChoiceField(choices=[(0, 'Black'), (1, 'Clayey'), (2, 'Loamy'), (3, 'Red'), (4, 'Sandy')])
+    Crop_Type = forms.ChoiceField(choices=[(0, 'Barley'), (1, 'Cotton'), (2, 'Ground Nuts'), (3, 'Maize'), (4, 'Millets'), (5, 'Oil seeds'), (6, 'Paddy'), (7, 'Pulses'), (8, 'Sugarcane'), (9, 'Tobacco'), (10, 'Wheat')])
