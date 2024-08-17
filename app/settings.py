@@ -15,6 +15,8 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+WEATHER_API_KEY = '64b804e8380913f428e6ae90d970cbc1'
+STORMGLASS_API_KEY = '0031803c-5c88-11ef-968a-0242ac130004-00318096-5c88-11ef-968a-0242ac130004'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/

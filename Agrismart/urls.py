@@ -5,4 +5,5 @@ urlpatterns = [
     path('',views.index,name='Agri'),
     path('db/',views.db,name='db'),
      path('predict_crop/', views.predict_crop, name='predict_crop'),
+
 ]

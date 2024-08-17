@@ -20,6 +20,10 @@
             border-radius: 0.5rem;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
+        #map {
+            width: 100%;
+            height: 400px;
+        }
     </style>
     {% block link %}{% endblock %}
 </head>
@@ -43,10 +47,12 @@
         </header>
         {% block body %}
         <div class="p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            <div class="card text-center">
+            <div class="card text-center" id="weather-card">
                 <p class="text-xl">Air Temp</p>
-                <p class="text-3xl font-bold">+24°C</p>
-                <p class="text-green-600">Good</p>
+                <p class="text-3xl font-bold" id="temperature">--°C</p>
+                <p id="weather-description" class="text-green-600">--</p>
+                <p id="location-name" class="mt-2 text-sm">--</p>
+                <button id="reload-weather" class="mt-2 bg-blue-500 text-white p-1 rounded text-sm">Reload Weather</button>
             </div>
             <div class="card text-center">
                 <p class="text-xl">Soil Moisture</p>
@@ -55,12 +61,12 @@
             </div>
             <div class="card text-center">
                 <p class="text-xl">Precipitation</p>
-                <p class="text-3xl font-bold">-2mm</p>
-                <p class="text-red-600">Low</p>
+                <p class="text-3xl font-bold" id="precipitation-card">-- mm</p>
+                <p id="precipitation-status" class="text-red-600">--</p>
             </div>
             <div class="col-span-1 md:col-span-2 lg:col-span-1 card">
-                <h2 class="text-xl font-bold mb-2">Predictive Analysis</h2>
-                <canvas id="predictiveAnalysisChart"></canvas>
+                <h2 class="text-xl font-bold mb-2">Current Location</h2>
+                <div id="map"></div>
             </div>
             <div class="col-span-1 md:col-span-2 lg:col-span-1 card">
                 <h2 class="text-xl font-bold mb-2">It's the perfect day for spraying</h2>
@@ -120,44 +126,72 @@
             </div>
         </footer>
     </div>
-
-    <!-- Add Chart.js library -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Add Google Maps JavaScript API script with your API key -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCvfrKA--HGIGyC2AVft3n67C8Z-m2s3Us"></script>
     <script>
-        // Example of creating a chart using Chart.js
-        var ctx = document.getElementById('predictiveAnalysisChart').getContext('2d');
-        var chart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: ['April', 'May', 'June', 'July', 'August', 'September'],
-                datasets: [{
-                    label: 'Carrots',
-                    data: [8, 9, 7, 10, 8.5, 9.3],
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    borderWidth: 1,
-                    fill: false
-                }]
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    x: {
-                        display: true,
-                        title: {
-                            display: true,
-                            text: 'Month'
-                        }
-                    },
-                    y: {
-                        display: true,
-                        title: {
-                            display: true,
-                            text: 'Yield (in thousands)'
-                        }
-                    }
-                }
-            }
-        });
+        function initMap() {
+            navigator.geolocation.getCurrentPosition((position) => {
+                const lat = position.coords.latitude;
+                const lon = position.coords.longitude;
+
+                const map = new google.maps.Map(document.getElementById('map'), {
+                    center: { lat: lat, lng: lon },
+                    zoom: 15,
+                    mapTypeId: 'satellite'  // Set map type to satellite
+                });
+
+                new google.maps.Marker({
+                    position: { lat: lat, lng: lon },
+                    map: map,
+                    title: 'Your Location'
+                });
+            });
+        }
+
+        window.onload = initMap;
+
+        let weatherApiKey = '';
+
+        async function getWeatherApiKey() {
+            const response = await fetch('/get-weather-api-key/');
+            const data = await response.json();
+            weatherApiKey = data.api_key;
+        }
+
+        async function getWeatherData(lat, lon) {
+            const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${weatherApiKey}&units=metric`;
+            const response = await fetch(url);
+            return await response.json();
+        }
+
+        function updateWeatherCard(data) {
+            const tempElement = document.getElementById('temperature');
+            const descElement = document.getElementById('weather-description');
+            const locationElement = document.getElementById('location-name');
+            const precipitationCardElement = document.getElementById('precipitation-card');
+            const precipitationStatusElement = document.getElementById('precipitation-status');
+            
+            tempElement.textContent = `${Math.round(data.main.temp)}°C`;
+            descElement.textContent = data.weather[0].description;
+            locationElement.textContent = `${data.name}, ${data.sys.country}`;
+
+            const precipitation = data.rain ? data.rain["1h"] || data.rain["3h"] : 0;
+            precipitationCardElement.textContent = `${precipitation} mm`;
+            precipitationStatusElement.textContent = precipitation > 0 ? "Rain expected" : "No rain expected";
+        }
+
+        function fetchWeather() {
+            navigator.geolocation.getCurrentPosition(async (position) => {
+                const lat = position.coords.latitude;
+                const lon = position.coords.longitude;
+                const weatherData = await getWeatherData(lat, lon);
+                updateWeatherCard(weatherData);
+            });
+        }
+
+        document.getElementById('reload-weather').addEventListener('click', fetchWeather);
+
+        getWeatherApiKey().then(fetchWeather);
     </script>
 </body>
 </html>

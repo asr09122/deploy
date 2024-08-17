@@ -113,3 +113,14 @@ def predict_fertilizer(request):
         form = FertilizerForm()
     
     return render(request, 'Agrismart/fertilizer_form.html', {'form': form})
+
+
+
+from django.http import JsonResponse
+from django.conf import settings
+import requests
+import datetime
+
+def get_weather_api_key(request):
+    return JsonResponse({'api_key': settings.WEATHER_API_KEY})
+
