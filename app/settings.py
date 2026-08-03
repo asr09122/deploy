@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'tailwind',
     'theme',
     'django_browser_reload',
+    'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -44,11 +45,18 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
-TAILWIND_APP_NAME='theme'
-INTERNAL_IPS=['127.0.0.1']
-NPM_BIN_PATH=r"C:\Program Files\nodejs\npm.cmd"
+TAILWIND_APP_NAME = 'theme'
+INTERNAL_IPS = ['127.0.0.1']
+# Fix npm path for macOS
+import shutil as _shutil
+NPM_BIN_PATH = _shutil.which('npm') or '/usr/local/bin/npm'
+
+# CORS — allow the standalone frontend (served on a different port) to call the API
+CORS_ALLOW_ALL_ORIGINS = True  # Change to specific origins in production
+CORS_ALLOW_CREDENTIALS = True
 MIDDLEWARE = [
     "django_browser_reload.middleware.BrowserReloadMiddleware",
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',

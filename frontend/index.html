@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Agrismart — AI-Powered Smart Farming Platform</title>
+  <meta name="description" content="Agrismart empowers smallholder farmers with AI-driven crop and fertilizer predictions, real-time weather intelligence, and smart farming tools." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- Loading Screen -->
+  <div class="loading-overlay show" id="loadingOverlay">
+    <div class="loading-logo">🌾</div>
+    <div class="loading-bar"><div class="loading-progress"></div></div>
+  </div>
+
+  <!-- ═══════ NAVBAR ═══════ -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-brand">
+      <img src="images/agritech-removebg-preview.png" alt="Logo" style="height:40px; margin-right:10px;">
+      <span>Agrismart</span>
+    </div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#hero"        class="nav-link active">Home</a></li>
+      <li><a href="#features"    class="nav-link">Features</a></li>
+      <li><a href="#tools"       class="nav-link">Tools</a></li>
+      <li><a href="#about"       class="nav-link">About</a></li>
+      <li><a href="#testimonials" class="nav-link">Stories</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="login.html"          class="btn-ghost">Login</a>
+      <a href="login.html#register" class="btn-primary">Get Started</a>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ═══════ HERO — 3D FARM SCENE ═══════ -->
+  <section class="hero" id="hero">
+    <canvas id="farmCanvas"></canvas>
+    <div class="hero-overlay" style="background: linear-gradient(to bottom, rgba(10, 26, 14, 0.6) 0%, rgba(10, 26, 14, 0.4) 50%, rgba(10, 26, 14, 0.9) 100%), url('images/main.jpg') center/cover no-repeat;"></div>
+    <div class="particles" id="particles"></div>
+
+    <div class="hero-content" id="heroContent">
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        AI-Powered Agriculture Platform
+      </div>
+      <h1 class="hero-title">
+        Transform Your Farm<br/>
+        <span class="gradient-text">with Intelligence</span>
+      </h1>
+      <p class="hero-subtitle">
+        Harness the power of machine learning to predict the right crops,
+        optimize fertilizers, and grow smarter — not harder.
+      </p>
+      <div class="hero-cta">
+        <a href="predict.html" class="btn-primary btn-large" id="startBtn">
+          <span>Start Predicting</span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </a>
+        <a href="dashboard.html" class="btn-outline btn-large">Open Dashboard</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <div class="stat-value" data-target="15000">0</div>
+          <div class="stat-label">Farmers Helped</div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <div class="stat-value" data-target="94">0</div>
+          <div class="stat-label">% Model Accuracy</div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <div class="stat-value" data-target="22">0</div>
+          <div class="stat-label">Crop Types</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-scroll-hint">
+      <div class="scroll-mouse"><div class="scroll-wheel"></div></div>
+      <span>Scroll to explore</span>
+    </div>
+  </section>
+
+  <!-- ═══════ MARQUEE STRIP ═══════ -->
+  <section class="strip" id="strip">
+    <div class="strip-inner">
+      <div class="strip-item">🌱 Crop Intelligence</div>
+      <div class="strip-sep">✦</div>
+      <div class="strip-item">🧪 Fertilizer AI</div>
+      <div class="strip-sep">✦</div>
+      <div class="strip-item">🌦️ Weather Analytics</div>
+      <div class="strip-sep">✦</div>
+      <div class="strip-item">🗺️ Farm Mapping</div>
+      <div class="strip-sep">✦</div>
+      <div class="strip-item">📊 Yield Insights</div>
+      <div class="strip-sep">✦</div>
+      <div class="strip-item">🌿 Sustainable Farming</div>
+      <div class="strip-sep">✦</div>
+      <div class="strip-item">🤖 Random Forest AI</div>
+      <div class="strip-sep">✦</div>
+    </div>
+  </section>
+
+  <!-- ═══════ FEATURES ═══════ -->
+  <section class="features" id="features">
+    <div class="container">
+      <div class="section-header" data-reveal>
+        <div class="section-tag">What We Offer</div>
+        <h2 class="section-title">Everything Your Farm Needs</h2>
+        <p class="section-subtitle">From AI predictions to real-time weather — all your smart farming tools in one platform.</p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card feature-card--large" style="background: linear-gradient(to bottom, rgba(20, 30, 25, 0.8), rgba(10, 20, 15, 0.9)), url('images/cp.jpg') center/cover;" data-reveal>
+          <div class="feature-card-glow"></div>
+          <div class="feature-icon">🌾</div>
+          <h3>Crop Prediction AI</h3>
+          <p>Input your soil parameters (N, P, K, temperature, humidity, pH, rainfall) and our Random Forest model recommends the ideal crop — with 94%+ accuracy across 22 crop varieties.</p>
+          <a href="predict.html#crop" class="feature-link">
+            Predict Now
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+
+        <div class="feature-card" style="background: linear-gradient(to bottom, rgba(20, 30, 25, 0.8), rgba(10, 20, 15, 0.9)), url('images/ce.jpg') center/cover;" data-reveal>
+          <div class="feature-card-glow"></div>
+          <div class="feature-icon">🧪</div>
+          <h3>Fertilizer Advisor</h3>
+          <p>AI-driven fertilizer recommendations based on soil type, crop type, and nutrient levels — saving you money and the environment.</p>
+          <a href="predict.html#fertilizer" class="feature-link">Get Advice →</a>
+        </div>
+
+        <div class="feature-card" style="background: linear-gradient(to bottom, rgba(20, 30, 25, 0.8), rgba(10, 20, 15, 0.9)), url('images/cw.jpg') center/cover;" data-reveal>
+          <div class="feature-card-glow"></div>
+          <div class="feature-icon">🌦️</div>
+          <h3>Live Weather</h3>
+          <p>Real-time weather intelligence for your exact GPS location — temperature, precipitation, and atmospheric conditions.</p>
+          <a href="dashboard.html" class="feature-link">View Dashboard →</a>
+        </div>
+
+        <div class="feature-card" style="background: linear-gradient(to bottom, rgba(20, 30, 25, 0.8), rgba(10, 20, 15, 0.9)), url('images/8d77e623abb5e8bf9c0a521d82402c97rg.jpg') center/cover;" data-reveal>
+          <div class="feature-card-glow"></div>
+          <div class="feature-icon">🦠</div>
+          <h3>Plant Disease AI</h3>
+          <p>Upload a photo of your plant leaves and instantly identify diseases using our deep learning model.</p>
+          <a href="predict.html#disease" class="feature-link">Identify Disease →</a>
+        </div>
+
+        <div class="feature-card feature-card--wide" style="background: linear-gradient(to bottom, rgba(20, 30, 25, 0.8), rgba(10, 20, 15, 0.9)), url('images/market.jpg') center/cover;" data-reveal>
+          <div class="feature-card-glow"></div>
+          <div class="feature-icon">📊</div>
+          <h3>Smart Analytics Dashboard</h3>
+          <p>Track soil moisture, temperature trends, crop health metrics, and yield projections on a beautiful real-time dashboard — designed for farmers, not data scientists.</p>
+          <a href="dashboard.html" class="feature-link">
+            Open Dashboard
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ HOW IT WORKS ═══════ -->
+  <section class="howit" id="tools">
+    <div class="container">
+      <div class="section-header" data-reveal>
+        <div class="section-tag">Simple Process</div>
+        <h2 class="section-title">How Agrismart Works</h2>
+      </div>
+      <div class="steps">
+        <div class="step" data-reveal>
+          <div class="step-number">01</div>
+          <div class="step-content">
+            <h3>Create Your Account</h3>
+            <p>Sign up in under 30 seconds and set up your farm profile.</p>
+          </div>
+          <div class="step-icon">👤</div>
+        </div>
+        <div class="step-connector" data-reveal></div>
+        <div class="step" data-reveal>
+          <div class="step-number">02</div>
+          <div class="step-content">
+            <h3>Enter Soil Data</h3>
+            <p>Input your soil's NPK levels, pH and climate data from your field.</p>
+          </div>
+          <div class="step-icon">🧪</div>
+        </div>
+        <div class="step-connector" data-reveal></div>
+        <div class="step" data-reveal>
+          <div class="step-number">03</div>
+          <div class="step-content">
+            <h3>Get AI Predictions</h3>
+            <p>Our Random Forest model instantly recommends the best crop and fertilizer.</p>
+          </div>
+          <div class="step-icon">🤖</div>
+        </div>
+        <div class="step-connector" data-reveal></div>
+        <div class="step" data-reveal>
+          <div class="step-number">04</div>
+          <div class="step-content">
+            <h3>Grow & Thrive</h3>
+            <p>Follow the recommendations, monitor your dashboard, and watch yields soar.</p>
+          </div>
+          <div class="step-icon">🌱</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ ABOUT ═══════ -->
+  <section class="about" id="about">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-text" data-reveal>
+          <div class="section-tag">Our Mission</div>
+          <h2 class="section-title">Empowering Every Farmer<br/>with AI</h2>
+          <p>Agrismart was built to level the playing field. Large industrial farms have teams of agronomists and data scientists — smallholder farmers deserve the same edge. We democratize agricultural intelligence through accessible AI tools.</p>
+          <ul class="about-list">
+            <li>
+              <div class="check-icon">✓</div>
+              <span>Trained on real agricultural records across diverse soil conditions</span>
+            </li>
+            <li>
+              <div class="check-icon">✓</div>
+              <span>No agricultural expertise required — just enter the numbers</span>
+            </li>
+            <li>
+              <div class="check-icon">✓</div>
+              <span>Backed by Random Forest ML with 94.7% crop prediction accuracy</span>
+            </li>
+            <li>
+              <div class="check-icon">✓</div>
+              <span>Free for smallholder farmers under 5 acres</span>
+            </li>
+          </ul>
+        </div>
+        <div class="about-visual" data-reveal>
+          <div class="about-card about-card--top">
+            <div class="ac-icon">🏆</div>
+            <div>
+              <div class="ac-value">94.7%</div>
+              <div class="ac-label">Model Accuracy</div>
+            </div>
+          </div>
+          <div class="about-3d-scene" id="about3d">
+            <canvas id="aboutCanvas"></canvas>
+          </div>
+          <div class="about-card about-card--bottom">
+            <div class="ac-icon">🌾</div>
+            <div>
+              <div class="ac-value">+31%</div>
+              <div class="ac-label">Avg Yield Increase</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ TESTIMONIALS ═══════ -->
+  <section class="testimonials" id="testimonials">
+    <div class="container">
+      <div class="section-header" data-reveal>
+        <div class="section-tag">Success Stories</div>
+        <h2 class="section-title">Farmers Love Agrismart</h2>
+      </div>
+      <div class="testimonials-grid">
+        <div class="testi-card" data-reveal>
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-text">"The crop prediction was spot-on. I switched to paddy based on the AI advice and my yield increased by 35% this season. Incredible tool!"</p>
+          <div class="testi-author">
+            <div class="testi-avatar">👨‍🌾</div>
+            <div>
+              <div class="testi-name">Rajesh Kumar</div>
+              <div class="testi-role">Rice Farmer, Punjab</div>
+            </div>
+          </div>
+        </div>
+        <div class="testi-card testi-card--featured" data-reveal>
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-text">"I was skeptical at first, but the fertilizer recommendation saved me ₹12,000 in wasted inputs this season. The AI knows my soil better than I do!"</p>
+          <div class="testi-author">
+            <div class="testi-avatar">👩‍🌾</div>
+            <div>
+              <div class="testi-name">Priya Sharma</div>
+              <div class="testi-role">Organic Farmer, Maharashtra</div>
+            </div>
+          </div>
+        </div>
+        <div class="testi-card" data-reveal>
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-text">"The weather dashboard and satellite map is amazing. I plan irrigation schedules based on actual precipitation data for my exact field."</p>
+          <div class="testi-author">
+            <div class="testi-avatar">👨‍🌾</div>
+            <div>
+              <div class="testi-name">Mohammed Ali</div>
+              <div class="testi-role">Wheat Farmer, Haryana</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ CTA ═══════ -->
+  <section class="cta-section" id="contact">
+    <canvas id="ctaCanvas" class="cta-bg-canvas"></canvas>
+    <div class="container">
+      <div class="cta-content" data-reveal>
+        <h2 class="cta-title">Ready to Farm Smarter?</h2>
+        <p class="cta-subtitle">Join 15,000+ farmers already using Agrismart to grow more with less.</p>
+        <div class="cta-actions">
+          <a href="login.html#register" class="btn-primary btn-large">
+            <span>Start Free Today</span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <a href="predict.html" class="btn-outline-white btn-large">Try the AI Tools</a>
+        </div>
+        <div class="cta-note">No credit card required • Free for smallholder farmers</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ FOOTER ═══════ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo">
+            <div class="nav-logo">🌾</div>
+            <span>Agrismart</span>
+          </div>
+          <p>Empowering smallholder farmers with AI-powered precision agriculture.</p>
+          <div class="footer-social">
+            <a href="#" aria-label="Twitter" class="social-link">𝕏</a>
+            <a href="#" aria-label="Facebook" class="social-link">f</a>
+            <a href="#" aria-label="Instagram" class="social-link">📷</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Platform</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="predict.html">Crop Predictor</a></li>
+            <li><a href="predict.html#fertilizer">Fertilizer AI</a></li>
+            <li><a href="dashboard.html">Dashboard</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Connect</h4>
+          <p>📍 123 Farm Road, Agriville</p>
+          <p>📞 +91 98765 43210</p>
+          <p>✉️ hello@agrismart.io</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2024 Agrismart. Built with ❤️ for farmers everywhere.</p>
+        <p>Powered by Random Forest AI + Django REST Framework</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="js/farm3d.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

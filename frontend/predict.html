@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Predict — Agrismart</title>
+  <meta name="description" content="Use AI to predict the best crop and fertilizer for your farm based on soil data." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- Loading -->
+  <div class="loading-overlay show" id="loadingOverlay">
+    <div class="loading-logo">🌾</div>
+    <div class="loading-bar"><div class="loading-progress"></div></div>
+  </div>
+
+  <!-- Navbar -->
+  <nav class="navbar scrolled" id="navbar">
+    <div class="nav-brand">
+      <img src="images/agritech-removebg-preview.png" alt="Logo" style="height:40px; margin-right:10px;">
+      <span>Agrismart</span>
+    </div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html" class="nav-link">Home</a></li>
+      <li><a href="predict.html" class="nav-link active">Predict</a></li>
+      <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="login.html" class="btn-ghost">Login</a>
+      <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+
+  <!-- Page Hero -->
+  <div class="page-hero">
+    <h1>🤖 AI <span class="gradient-text">Prediction Tools</span></h1>
+    <p>Enter your soil and climate data and let our machine learning models recommend the best crop and fertilizer for maximum yield.</p>
+  </div>
+
+  <!-- Predict Section -->
+  <section class="predict-section">
+    <div class="container">
+
+      <!-- Tabs -->
+      <div class="predict-tabs">
+        <button class="tab-btn active" data-tab="crop" id="cropTab">
+          🌾 Crop Prediction
+        </button>
+        <button class="tab-btn" data-tab="fertilizer" id="fertilizerTab">
+          🧪 Fertilizer Advisor
+        </button>
+        <button class="tab-btn" data-tab="disease" id="diseaseTab">
+          🦠 Disease AI
+        </button>
+      </div>
+
+      <!-- CROP FORM -->
+      <div class="predict-content active" id="crop">
+        <div class="predict-card" data-reveal>
+          <h2 class="form-title">🌾 Crop Recommendation</h2>
+          <p class="form-subtitle">Fill in your soil's nutrient levels and climate conditions. Our Random Forest model will recommend the ideal crop.</p>
+
+          <form id="cropForm" autocomplete="off">
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="N">Nitrogen (N) — kg/ha</label>
+                <input type="number" id="N" placeholder="e.g. 90" min="0" max="200" required />
+              </div>
+              <div class="form-group">
+                <label for="P">Phosphorus (P) — kg/ha</label>
+                <input type="number" id="P" placeholder="e.g. 42" min="0" max="200" required />
+              </div>
+              <div class="form-group">
+                <label for="K">Potassium (K) — kg/ha</label>
+                <input type="number" id="K" placeholder="e.g. 43" min="0" max="250" required />
+              </div>
+              <div class="form-group">
+                <label for="temperature">Temperature — °C</label>
+                <input type="number" id="temperature" placeholder="e.g. 25" min="-10" max="60" step="0.1" required />
+              </div>
+              <div class="form-group">
+                <label for="humidity">Humidity — %</label>
+                <input type="number" id="humidity" placeholder="e.g. 80" min="0" max="100" required />
+              </div>
+              <div class="form-group">
+                <label for="ph">Soil pH</label>
+                <input type="number" id="ph" placeholder="e.g. 6.5" min="0" max="14" step="0.01" required />
+              </div>
+              <div class="form-group" style="grid-column: span 2;">
+                <label for="rainfall">Rainfall — mm</label>
+                <input type="number" id="rainfall" placeholder="e.g. 200" min="0" max="3000" required />
+              </div>
+            </div>
+
+            <button type="submit" class="submit-btn">
+              <span>Predict Best Crop</span>
+              <div class="spinner" id="cropSpinner"></div>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </form>
+
+          <div class="result-box" id="cropResult"></div>
+        </div>
+
+        <!-- Info cards -->
+        <div class="container" style="margin-top: 2rem;">
+          <div style="display:grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem;">
+            <div class="feature-card" data-reveal>
+              <div class="feature-icon">🌡️</div>
+              <h3>Climate Aware</h3>
+              <p>Our model accounts for temperature and rainfall patterns specific to your region.</p>
+            </div>
+            <div class="feature-card" data-reveal>
+              <div class="feature-icon">🧬</div>
+              <h3>Soil Science</h3>
+              <p>NPK levels and pH are the core inputs our model uses to distinguish between 22 crop types.</p>
+            </div>
+            <div class="feature-card" data-reveal>
+              <div class="feature-icon">📈</div>
+              <h3>94% Accuracy</h3>
+              <p>Trained on thousands of real agricultural records from farms across India.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FERTILIZER FORM -->
+      <div class="predict-content" id="fertilizer">
+        <div class="predict-card" data-reveal>
+          <h2 class="form-title">🧪 Fertilizer Advisor</h2>
+          <p class="form-subtitle">Enter soil nutrient levels, crop type, and soil type to receive a fertilizer recommendation.</p>
+
+          <form id="fertForm" autocomplete="off">
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="fN">Nitrogen (N)</label>
+                <input type="number" id="fN" placeholder="e.g. 40" min="0" max="200" required />
+              </div>
+              <div class="form-group">
+                <label for="fP">Phosphorus (P)</label>
+                <input type="number" id="fP" placeholder="e.g. 20" min="0" max="200" required />
+              </div>
+              <div class="form-group">
+                <label for="fK">Potassium (K)</label>
+                <input type="number" id="fK" placeholder="e.g. 15" min="0" max="250" required />
+              </div>
+              <div class="form-group">
+                <label for="fT">Temperature — °C</label>
+                <input type="number" id="fT" placeholder="e.g. 28" min="-10" max="60" required />
+              </div>
+              <div class="form-group">
+                <label for="fHum">Humidity — %</label>
+                <input type="number" id="fHum" placeholder="e.g. 65" min="0" max="100" required />
+              </div>
+              <div class="form-group">
+                <label for="fMoisture">Soil Moisture — %</label>
+                <input type="number" id="fMoisture" placeholder="e.g. 45" min="0" max="100" required />
+              </div>
+              <div class="form-group">
+                <label for="fSoil">Soil Type</label>
+                <select id="fSoil" required>
+                  <option value="">Select soil type...</option>
+                  <option value="0">Black</option>
+                  <option value="1">Clayey</option>
+                  <option value="2">Loamy</option>
+                  <option value="3">Red</option>
+                  <option value="4">Sandy</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="fCrop">Crop Type</label>
+                <select id="fCrop" required>
+                  <option value="">Select crop type...</option>
+                  <option value="0">Barley</option>
+                  <option value="1">Cotton</option>
+                  <option value="2">Ground Nuts</option>
+                  <option value="3">Maize</option>
+                  <option value="4">Millets</option>
+                  <option value="5">Oil seeds</option>
+                  <option value="6">Paddy</option>
+                  <option value="7">Pulses</option>
+                  <option value="8">Sugarcane</option>
+                  <option value="9">Tobacco</option>
+                  <option value="10">Wheat</option>
+                </select>
+              </div>
+            </div>
+
+            <button type="submit" class="submit-btn">
+              <span>Recommend Fertilizer</span>
+              <div class="spinner"></div>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </form>
+
+          <div class="result-box" id="fertResult"></div>
+        </div>
+      </div>
+
+      <!-- DISEASE FORM -->
+      <div class="predict-content" id="disease">
+        <div class="predict-card" data-reveal>
+          <h2 class="form-title">🦠 Plant Disease AI</h2>
+          <p class="form-subtitle">Upload a clear photo of the affected plant leaf. Our deep learning model will identify the disease.</p>
+
+          <form id="diseaseForm" autocomplete="off" enctype="multipart/form-data">
+            <div class="form-grid">
+              <div class="form-group" style="grid-column: span 2;">
+                <label for="diseaseImage">Upload Leaf Image</label>
+                <input type="file" id="diseaseImage" accept="image/*" required style="padding: 10px; background: rgba(255,255,255,0.05); border-radius: 8px;" />
+              </div>
+            </div>
+
+            <button type="submit" class="submit-btn">
+              <span>Identify Disease</span>
+              <div class="spinner"></div>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </form>
+
+          <div class="result-box" id="diseaseResult"></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <p>© 2024 Agrismart — AI-Powered Agriculture</p>
+        <p><a href="index.html" style="color: var(--green-400);">← Back to Home</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="js/farm3d.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    // Tab switching via URL hash
+    const hash = window.location.hash;
+    if (hash === '#fertilizer') {
+      document.getElementById('fertilizerTab').click();
+    }
+  </script>
+</body>
+</html>

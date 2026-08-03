@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard — Agrismart</title>
+  <meta name="description" content="Real-time farm dashboard with weather, soil data, maps and AI insights." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .weather-icon { font-size: 3rem; position: absolute; top: 1.5rem; right: 1.5rem; opacity: 0.4; }
+    .reload-btn {
+      padding: 0.4rem 1rem; background: var(--bg-mid); border: 1px solid var(--border);
+      border-radius: var(--radius-full); font-size: 0.8rem; color: var(--text-muted);
+      cursor: pointer; transition: var(--transition); margin-top: 0.75rem; display: inline-block;
+    }
+    .reload-btn:hover { border-color: var(--green-400); color: var(--green-400); }
+    .soil-bar-wrap { margin-top: 0.75rem; }
+    .soil-bar-label { display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.4rem; }
+    .soil-bar { height: 6px; background: var(--bg-mid); border-radius: 6px; overflow: hidden; margin-bottom: 0.9rem; }
+    .soil-bar-fill { height: 100%; border-radius: 6px; transition: width 1.2s var(--transition-bounce); }
+    .tip-card {
+      background: linear-gradient(135deg, hsla(142,40%,15%,.9), hsla(142,30%,10%,.9));
+      border: 1px solid var(--border-hover);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      margin-bottom: 1.5rem;
+    }
+    .tip-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+    .tip-list { list-style: none; display: flex; flex-direction: column; gap: 0.75rem; }
+    .tip-list li { display: flex; gap: 0.6rem; font-size: 0.88rem; color: var(--text-secondary); }
+    .tip-dot { width: 6px; height: 6px; background: var(--green-400); border-radius: 50%; flex-shrink: 0; margin-top: 6px; }
+    .quick-actions { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+    .qa-btn {
+      display: flex; align-items: center; gap: 0.6rem;
+      padding: 0.7rem 1.4rem; background: var(--bg-card);
+      border: 1px solid var(--border); border-radius: var(--radius-full);
+      font-size: 0.9rem; font-weight: 600; color: var(--text-secondary);
+      text-decoration: none; transition: var(--transition);
+    }
+    .qa-btn:hover { border-color: var(--green-400); color: var(--green-400); transform: translateY(-2px); }
+  </style>
+</head>
+<body>
+
+  <!-- Loading -->
+  <div class="loading-overlay show" id="loadingOverlay">
+    <div class="loading-logo">🌾</div>
+    <div class="loading-bar"><div class="loading-progress"></div></div>
+  </div>
+
+  <!-- Navbar -->
+  <nav class="navbar scrolled" id="navbar">
+    <div class="nav-brand">
+      <img src="images/agritech-removebg-preview.png" alt="Logo" style="height:40px; margin-right:10px;">
+      <span>Agrismart</span>
+    </div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html" class="nav-link">Home</a></li>
+      <li><a href="predict.html" class="nav-link">Predict</a></li>
+      <li><a href="dashboard.html" class="nav-link active">Dashboard</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="login.html" class="btn-ghost">Login</a>
+      <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+
+  <!-- Dashboard -->
+  <div class="dashboard-layout">
+    <div class="container">
+      <div class="dashboard-header">
+        <h1>🌿 Farm Dashboard</h1>
+        <p>Real-time conditions and insights for your farm — updated live</p>
+      </div>
+
+      <!-- Quick actions -->
+      <div class="quick-actions">
+        <a href="predict.html#crop" class="qa-btn">🌾 Predict Crop</a>
+        <a href="predict.html#fertilizer" class="qa-btn">🧪 Fertilizer Advice</a>
+        <a href="index.html#features" class="qa-btn">📚 Knowledge Hub</a>
+        <button class="qa-btn" onclick="loadWeatherDash()">🔄 Refresh Weather</button>
+      </div>
+
+      <!-- Stats row -->
+      <div class="dash-grid">
+        <div class="dash-stat" data-reveal>
+          <div class="weather-icon">🌡️</div>
+          <div class="dash-stat-icon">🌡️</div>
+          <div class="dash-stat-label">Air Temperature</div>
+          <div class="dash-stat-value" id="dashTemp">--°C</div>
+          <div class="dash-stat-sub info" id="dashDesc">Fetching...</div>
+          <div class="dash-stat-sub" id="dashLoc" style="color:var(--text-muted);font-size:0.75rem;">📍 Detecting location...</div>
+        </div>
+        <div class="dash-stat" data-reveal>
+          <div class="weather-icon">💧</div>
+          <div class="dash-stat-icon">💧</div>
+          <div class="dash-stat-label">Humidity</div>
+          <div class="dash-stat-value" id="dashHum">--%</div>
+          <div class="dash-stat-sub good">Optimal range: 50–80%</div>
+        </div>
+        <div class="dash-stat" data-reveal>
+          <div class="weather-icon">🌧️</div>
+          <div class="dash-stat-icon">🌧️</div>
+          <div class="dash-stat-label">Precipitation</div>
+          <div class="dash-stat-value" id="dashRain">-- mm</div>
+          <div class="dash-stat-sub warn" id="rainStatus">Checking...</div>
+        </div>
+        <div class="dash-stat" data-reveal>
+          <div class="weather-icon">🌱</div>
+          <div class="dash-stat-icon">🌱</div>
+          <div class="dash-stat-label">Soil Moisture</div>
+          <div class="dash-stat-value">72%</div>
+          <div class="dash-stat-sub good">↑ High — Good</div>
+        </div>
+      </div>
+
+      <!-- Map & Chart row -->
+      <div class="dash-row">
+        <div class="dash-card" id="map" data-reveal>
+          <h3>🗺️ Farm Location</h3>
+          <div id="dashMap">
+            <span style="font-size:2rem">📍</span>
+            <span>Detecting your location...</span>
+            <button class="reload-btn" onclick="requestLocation()">Allow Location Access</button>
+          </div>
+        </div>
+        <div class="dash-card" data-reveal>
+          <h3>📊 Monthly Yield Trend (Projected)</h3>
+          <div class="chart-placeholder">
+            <div class="chart-bars">
+              <div class="chart-bar" style="height:0%"></div>
+              <div class="chart-bar" style="height:0%"></div>
+              <div class="chart-bar" style="height:0%"></div>
+              <div class="chart-bar" style="height:0%"></div>
+              <div class="chart-bar" style="height:0%"></div>
+              <div class="chart-bar" style="height:0%"></div>
+              <div class="chart-bar" style="height:0%"></div>
+              <div class="chart-bar" style="height:0%"></div>
+              <div class="chart-bar" style="height:0%"></div>
+              <div class="chart-bar" style="height:0%"></div>
+              <div class="chart-bar" style="height:0%"></div>
+              <div class="chart-bar" style="height:0%"></div>
+            </div>
+          </div>
+          <div style="display:flex;justify-content:space-between;margin-top:0.75rem;font-size:0.75rem;color:var(--text-muted);">
+            <span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span>
+            <span>May</span><span>Jun</span><span>Jul</span><span>Aug</span>
+            <span>Sep</span><span>Oct</span><span>Nov</span><span>Dec</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Soil health & Tips row -->
+      <div class="dash-row">
+        <div class="dash-card" data-reveal>
+          <h3>🧪 Soil Nutrient Levels (Current)</h3>
+          <div class="soil-bar-wrap">
+            <div class="soil-bar-label"><span>Nitrogen (N)</span><span>74 kg/ha</span></div>
+            <div class="soil-bar"><div class="soil-bar-fill" style="width:0%;background:linear-gradient(90deg,hsl(142,60%,30%),hsl(142,60%,50%))"></div></div>
+
+            <div class="soil-bar-label"><span>Phosphorus (P)</span><span>45 kg/ha</span></div>
+            <div class="soil-bar"><div class="soil-bar-fill" style="width:0%;background:linear-gradient(90deg,hsl(200,60%,30%),hsl(200,60%,55%))"></div></div>
+
+            <div class="soil-bar-label"><span>Potassium (K)</span><span>62 kg/ha</span></div>
+            <div class="soil-bar"><div class="soil-bar-fill" style="width:0%;background:linear-gradient(90deg,hsl(45,60%,30%),hsl(45,80%,55%))"></div></div>
+
+            <div class="soil-bar-label"><span>Soil pH</span><span>6.8</span></div>
+            <div class="soil-bar"><div class="soil-bar-fill" style="width:0%;background:linear-gradient(90deg,hsl(15,60%,30%),hsl(15,70%,55%))"></div></div>
+          </div>
+          <a href="predict.html" class="feature-link" style="margin-top:1rem;display:inline-flex;">
+            Get crop recommendation →
+          </a>
+        </div>
+
+        <div class="tip-card" data-reveal>
+          <h3>💡 Smart Farming Tips</h3>
+          <ul class="tip-list">
+            <li><div class="tip-dot"></div><span>With current humidity levels, consider reducing irrigation frequency by 20% this week.</span></li>
+            <li><div class="tip-dot"></div><span>Soil pH of 6.8 is ideal for wheat and paddy. Consider these crops for next season.</span></li>
+            <li><div class="tip-dot"></div><span>Nitrogen levels are slightly below optimal — consider applying urea at 30 kg/ha.</span></li>
+            <li><div class="tip-dot"></div><span>Monitor for fungal disease in high-humidity conditions above 80%.</span></li>
+            <li><div class="tip-dot"></div><span>Best planting window for your location: August–September for Rabi crops.</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Crops grid -->
+      <div class="dash-card" data-reveal>
+        <h3>🌾 Crop Reference Library</h3>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1rem;margin-top:1rem;">
+          <div class="crop-ref" style="background:var(--bg-mid);border:1px solid var(--border);border-radius:var(--radius-md);padding:1rem;text-align:center;">
+            <div style="font-size:2rem;margin-bottom:0.5rem">🌾</div>
+            <div style="font-weight:700;margin-bottom:0.3rem">Wheat</div>
+            <div style="font-size:0.75rem;color:var(--text-muted)">N:26% · P:34% · Fats:10%</div>
+          </div>
+          <div class="crop-ref" style="background:var(--bg-mid);border:1px solid var(--border);border-radius:var(--radius-md);padding:1rem;text-align:center;">
+            <div style="font-size:2rem;margin-bottom:0.5rem">🌾</div>
+            <div style="font-weight:700;margin-bottom:0.3rem">Rice</div>
+            <div style="font-size:0.75rem;color:var(--text-muted)">High humidity · pH 5–7</div>
+          </div>
+          <div class="crop-ref" style="background:var(--bg-mid);border:1px solid var(--border);border-radius:var(--radius-md);padding:1rem;text-align:center;">
+            <div style="font-size:2rem;margin-bottom:0.5rem">🌽</div>
+            <div style="font-weight:700;margin-bottom:0.3rem">Maize</div>
+            <div style="font-size:0.75rem;color:var(--text-muted)">Warm · 60–110mm rain</div>
+          </div>
+          <div class="crop-ref" style="background:var(--bg-mid);border:1px solid var(--border);border-radius:var(--radius-md);padding:1rem;text-align:center;">
+            <div style="font-size:2rem;margin-bottom:0.5rem">🎋</div>
+            <div style="font-weight:700;margin-bottom:0.3rem">Sugarcane</div>
+            <div style="font-size:0.75rem;color:var(--text-muted)">Tropical · High K</div>
+          </div>
+          <div class="crop-ref" style="background:var(--bg-mid);border:1px solid var(--border);border-radius:var(--radius-md);padding:1rem;text-align:center;">
+            <div style="font-size:2rem;margin-bottom:0.5rem">🌸</div>
+            <div style="font-weight:700;margin-bottom:0.3rem">Cotton</div>
+            <div style="font-size:0.75rem;color:var(--text-muted)">Black soil · pH 6–8</div>
+          </div>
+          <div class="crop-ref" style="background:var(--bg-mid);border:1px solid var(--border);border-radius:var(--radius-md);padding:1rem;text-align:center;">
+            <div style="font-size:2rem;margin-bottom:0.5rem">🫘</div>
+            <div style="font-weight:700;margin-bottom:0.3rem">Pulses</div>
+            <div style="font-size:0.75rem;color:var(--text-muted)">Low N needed · Loamy</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <p>© 2024 Agrismart — AI-Powered Agriculture</p>
+        <p><a href="index.html" style="color: var(--green-400);">← Back to Home</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="js/farm3d.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    // Animate soil bars after load
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        const fills = [
+          { el: document.querySelectorAll('.soil-bar-fill')[0], width: '74%' },
+          { el: document.querySelectorAll('.soil-bar-fill')[1], width: '45%' },
+          { el: document.querySelectorAll('.soil-bar-fill')[2], width: '62%' },
+          { el: document.querySelectorAll('.soil-bar-fill')[3], width: '68%' },
+        ];
+        fills.forEach(({ el, width }) => { if (el) el.style.width = width; });
+      }, 1000);
+    });
+
+    function requestLocation() {
+      navigator.geolocation.getCurrentPosition(
+        pos => {
+          const { latitude: lat, longitude: lon } = pos.coords;
+          const mapEl = document.getElementById('dashMap');
+          if (mapEl) {
+            mapEl.innerHTML = `<iframe width="100%" height="100%" style="border:none;border-radius:12px;"
+              src="https://www.openstreetmap.org/export/embed.html?bbox=${lon-0.05}%2C${lat-0.05}%2C${lon+0.05}%2C${lat+0.05}&layer=mapnik&marker=${lat}%2C${lon}"
+              allowfullscreen loading="lazy"></iframe>`;
+          }
+        },
+        () => alert('Location access denied. Please enable location in your browser.')
+      );
+    }
+
+    function loadWeatherDash() {
+      if (typeof loadWeather === 'function') loadWeather();
+    }
+  </script>
+</body>
+</html>

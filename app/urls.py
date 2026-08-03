@@ -1,21 +1,14 @@
 from django.contrib import admin
-from django.urls import path,include
-from Agrismart import views as u_views
-from django.contrib.auth import views as l_views
+from django.urls import path, include, re_path
+from django.conf import settings
+from django.views.static import serve
+import os
+
+frontend_dir = os.path.join(settings.BASE_DIR, 'frontend')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',u_views.index,name='agri'),
-    path('Agri',include('Agrismart.urls')),
-    path("__reload__/", include("django_browser_reload.urls")),
-    path('register/',u_views.regi,name='regi'),
-    path('login/',l_views.LoginView.as_view(template_name='Agrismart/login.html'),name='login'),
-    path('logout/',u_views.logout_view,name='logout'),
-     path('db/',u_views.db,name='data'),
-     path('ac/',u_views.ac,name='ac'),
-     path('predict_crop/', u_views.predict_crop, name='predict_crop'),
-    path('predict_fertilizer/', u_views.predict_fertilizer, name='predict_fertilizer'),
-    path('get-weather-api-key/', u_views.get_weather_api_key, name='get_weather_api_key'),
-
-
+    path('Agri/', include('Agrismart.urls')),
+    path('', serve, {'document_root': frontend_dir, 'path': 'index.html'}),
+    re_path(r'^(?P<path>.*)$', serve, {'document_root': frontend_dir}),
 ]
